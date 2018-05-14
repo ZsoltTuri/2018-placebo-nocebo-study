@@ -1,0 +1,5 @@
+The files were renamed.
+
+E.g.:
+Original name: Y_P1_B_01_PLC_L_D1S1_2014_Nov_28_1503.csv
+New name: P1_Y_B_01_PLC_L_D1S1_2014_Nov_28_1503.csv

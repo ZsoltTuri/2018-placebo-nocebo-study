@@ -1,0 +1,8 @@
+The files were renamed.
+
+E.g.:
+Original name: NHG_P1_PLC_L_D1S1_2015_Nov_03_1335.csv
+New name: P1_NHG_PLC_L_D1S1_2015_Nov_03_1335.csv
+
+
+

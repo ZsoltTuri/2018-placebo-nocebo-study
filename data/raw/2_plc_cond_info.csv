@@ -1,0 +1,17 @@
+Group;PID;ExpDirection;ExpAmount;PerceivedDirction;PerceivedAmount
+placebo_cond;1;0;0;0;0
+placebo_cond;2;1;8;1;5
+placebo_cond;3;1;15;0;0
+placebo_cond;4;0;0;1;10
+placebo_cond;5;1;10;1;10
+placebo_cond;6;0;0;1;33
+placebo_cond;7;1;18;1;18
+placebo_cond;8;1;20;0;0
+placebo_cond;9;1;15;1;20
+placebo_cond;10;1;20;1;75
+placebo_cond;11;1;15;1;72
+placebo_cond;12;1;10;0;0
+placebo_cond;13;1;10;1;5
+placebo_cond;14;1;25;1;25
+placebo_cond;15;1;15;1;25
+placebo_cond;16;0;0;1;10

@@ -1,0 +1,17 @@
+Group;PID;ExpDirection;ExpAmount;PerceivedDirction;PerceivedAmount
+nocebo_cond;1;-1;-15;-1;-25
+nocebo_cond;2;-1;-7,5;-1;-5
+nocebo_cond;3;-1;-10;-1;-15
+nocebo_cond;4;-1;-80;-1;-20
+nocebo_cond;5;1;10;0;0
+nocebo_cond;6;-1;-15;1;7,5
+nocebo_cond;7;0;0;-1;-10
+nocebo_cond;8;-1;-14;-1;-20
+nocebo_cond;9;0;0;-1;-30
+nocebo_cond;10;0;0;0;0
+nocebo_cond;11;-1;-17,5;0;0
+nocebo_cond;12;-1;-25;-1;-20
+nocebo_cond;13;-1;-17,5;-1;-17,5
+nocebo_cond;14;0;0;-1;-40
+nocebo_cond;15;-1;-10;-1;-15
+nocebo_cond;16;-1;-15;-1;-20
