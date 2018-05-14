@@ -78,6 +78,7 @@ workspace under the name of the `R`-file (without the `.R` extension).
 The data is structured as follows <!--- (refer to [the paper](http://www.link) for
 details). -->
 
+<!---
 ### Demographic
 stored in variable `demographic`
 ~~~
@@ -100,7 +101,7 @@ Variables are coded as follows:
 	- n_cntrl: nocebo control group
 	- p_cntrl: placebo control group
 - `age` - age of the participants in the time of the participation
-- `subj` - 64 unique, group-independent participant identification number
+- `subj` - 64 unique, group-independent participant identification number  -->
 
 ### Subjectively reported expected and perceived cognitive performance
 
