@@ -46,8 +46,8 @@ needed packages with very few commands.
 2. clone this repository
  ~~~{bash}
  git clone
- https://github.com/ihrke/2016-placebo-tdcs-study
- cd 2016-2016-placebo-tdcs-study
+ https://github.com/ZsoltTuri/2018-placebo-nocebo-study
+ cd 2018-placebo-nocebo-study
  ~~~
 
 3. re-create the environment used for creating these analyses:
