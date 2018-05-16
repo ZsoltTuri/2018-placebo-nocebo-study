@@ -7,7 +7,7 @@ fnames <- list.files(dpath, pattern = "*.csv")
 for(fname in fnames){
   d <- read.csv(file.path(dpath, fname), header = T, sep = ";") %>% 
     mutate(PID = factor(PID), Group = factor(Group)) %>% 
-    select(participant = PID, group = Group, age = Age)
+    select(participant = PID, group = Group)
   demographic = rbind(demographic, d)
 }
 rm(d)
