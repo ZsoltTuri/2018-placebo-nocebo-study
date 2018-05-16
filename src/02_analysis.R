@@ -1,10 +1,13 @@
+# This script is part of 
+#
+# Turi, Z., Bjørkedal, E., Gunkel, L., Antal, A., Paulus, W. & Mittner, M. (2018).
+# Evidence for Cognitive Placebo and Nocebo Effects in Healthy Individuals.
+#
+# Analysis of accuracy data.
+#
+#
 library(ProjectTemplate)
 load.project()
-
-library(brms)
-library(bayesplot)
-library(tidybayes)
-library(forcats)
 
 options(mc.cores=parallel::detectCores())
 theme_set(theme_bw())
@@ -105,18 +108,6 @@ models <- list(
   formula(accuracy ~ ztrial * symbl_pair + day + day:ztrial + group + (1 + ztrial + symbl_pair|subj)),
   formula(accuracy ~ ztrial * symbl_pair + day + day:ztrial + group + group:day + (1 + ztrial + symbl_pair|subj)),
   formula(accuracy ~ ztrial * symbl_pair + day + day:ztrial + group + group:day + day:ztrial:group + (1 + ztrial + symbl_pair|subj))
-  
-  # formula(accuracy ~ ztrial * symbl_pair + group + (1|participant)),
-  # formula(accuracy ~ ztrial * symbl_pair * group + (1|participant)),
-  # formula(accuracy ~ ztrial * symbl_pair * group + day + (1|participant)),
-  # formula(accuracy ~ ztrial * symbl_pair * group * day + (1|participant))
-  
-  # formula(accuracy ~ cue_type * ztrial + (1+cue_type|participant)),
-  # formula(accuracy ~ cue_type * ztrial + (1+ztrial|participant)),
-  # formula(accuracy ~ cue_type * ztrial + (1+cue_type+ztrial|participant)),
-  # formula(accuracy ~ cue_type * ztrial + session + (1+cue_type+ztrial|participant)),
-  # formula(accuracy ~ cue_type * ztrial * session + (1+cue_type+ztrial|participant)),
-  # formula(accuracy ~ cue_type * ztrial * session + (1+cue_type+ztrial+session|participant))
 )
 names(models) <- sprintf("mod%02i", 1:length(models))
 
@@ -124,9 +115,6 @@ names(models) <- sprintf("mod%02i", 1:length(models))
 ## fit models
 #========================
 library(parallel)
-#models.fitted=map(models, fit_and_plot)
-#models.fitted=mclapply(models, fit_and_plot, mc.cores = 4)
-#models.fitted=map2(names(models), models, fit_and_plot)
 models.fitted=mcmapply(fit_and_plot, names(models), models, mc.cores = 4, SIMPLIFY = FALSE)
 # stop()
 #========================
@@ -134,10 +122,8 @@ models.fitted=mcmapply(fit_and_plot, names(models), models, mc.cores = 4, SIMPLI
 #========================
 
 loos = if.cached.load("loos", {
-  #mclapply(models.fitted, LOO, mc.cores = 4)
   map(models.fitted, LOO, pointwise=F) 
 }, base=bname)
-##loos = mclapply(models.fitted, LOO, mc.cores=6)
 loos=map2(names(models), loos, function(mname,mod){mod$model_name=mname; mod})
 
 sink(log.filename("modsel.log", base=bname))
@@ -150,34 +136,11 @@ compare_ic(x=loos)
 
 sink(NULL)
 
-# m9=as.matrix(mod09)
-# mcmc_intervals(m9, regex_pars = c("b_"))
 #========================
 ## exploratory
 #========================
 # mod11
 mcmc_intervals(as.matrix(mod12), regex_pars = c("b_"))
-
-# based on model-selection does adding session improve the model?
-
-#d %>% group_by(participant,session) %>% summarise(perc_nogo=sum(is.na(reaction_time))/n()*100) %>%
-#  ggplot(aes(x=participant, y=perc_nogo))+geom_bar(stat="identity")+facet_wrap(~session)
-
-# 
-# d %>% 
-#   ggplot(aes(x = day,y = accuracy))+
-#   stat_summary(fun.y = mean, geom = "bar")+
-#   facet_wrap(~day)
-# 
-# d %>% filter(participant==7, session=="stim_7Hz") %>% View
-# group_by(cue_type) %>% 
-#   summarize(mean(accuracy), n(), sum(accuracy==1), sum(accuracy==0), sum(is.na(reaction_time)))# min(accuracy),max(accuracy))
-# 
-# 
-# d %>% group_by(participant,session) %>% summarise(perc_nogo=sum(is.na(reaction_time))/n()*100) %>%
-#   ggplot(aes(x=participant, y=perc_nogo))+geom_bar(stat="identity")+facet_wrap(~session)
-
-library(tidyverse)
 d11=as.data.frame(mod11)
 hdi.lower=function(x) hdi(x)[1]
 hdi.upper=function(x) hdi(x)[2]

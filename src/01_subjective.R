@@ -1,10 +1,14 @@
+# This script is part of 
+#
+# Turi, Z., Bjørkedal, E., Gunkel, L., Antal, A., Paulus, W. & Mittner, M. (2018).
+# Evidence for Cognitive Placebo and Nocebo Effects in Healthy Individuals.
+#
+# Analysis of subjective outcome measures.
+#
+#
+
 library(ProjectTemplate)
 load.project()
-
-library(brms)
-library(bayesplot)
-library(tidybayes)
-library(forcats)
 
 options(mc.cores=parallel::detectCores())
 theme_set(theme_bw())
@@ -38,41 +42,6 @@ mod6 <- if.cached.load("mod6",
                        brm(value ~ effect * type + time + time:type+ (1|subj), data = d, family = "categorical", prior=c(set_prior ("cauchy (0, 1)"))),
                        base=bname)
 
-
-
-# plot.postpred <- function(mod, nrep = 100){
-#   m = posterior_predict(mod0, nsamples = nrep) 
-#   d.rep = cbind(d %>% select(-value), data.frame(m%>%t) %>% gather(value)) %>% 
-#     mutate(value = value - 1) %>% 
-#     group_by(groups, time) %>% summarize(count=n()) 
-#   
-#   d %>%
-#     ggplot(aes(x = value)) + geom_bar(stat = "bin") + facet_grid(time ~ groups)+
-#     stat_summary(fun.data = mean_sdl, aes(x = time, y = count),fun.args = list(mult = 1),
-#                  geom = "pointrange", color = "grey",
-#                  data = d.rep)
-# }
-
-# plot(mod0)
-# plot(mod1)
-
-if(F){
-mods <- list(mod1, mod2, mod3, mod4, mod5, mod6)
-loos <- map(mods, LOO)
-
-LOO(mod1, mod2, mod3, mod4, mod5, mod6)
-m3=as.matrix(mod3)
-mcmc_intervals(m3, regex_pars = c("b_"))
-m4=as.matrix(mod4)
-mcmc_intervals(m4, regex_pars = c("b_"))
-LOO(mod1, mod2, mod3, mod4, mod5, mod6, reloo = TRUE)
-}
-# plot.postpred(mod0)
-# ggsave(filename=plot.filename("ppred_mod0.pdf", base = bname))
-# plot.postpred(mod1)
-# ggsave(filename=plot.filename("ppred_mod1.pdf", base = bname))
-
-
 softmax <- function(x){
   if(is.null(dim(x))){
     dim(x) <- c(1,length(x))
@@ -83,6 +52,7 @@ softmax <- function(x){
   }
   r
 }
+
 ## probs per group/day
 # value ~ effect + type + time + time:type + effect:type
 # effect: placebo/nocebo
@@ -137,11 +107,3 @@ pall %>%
   #geom_point(colour='grey', alpha=0.2)+
   geom_density_tern()+theme_bw()+
   facet_grid(time~conditioning)
-
-cache.var("mod1", base = bname)
-cache.var("mod2", base = bname)
-cache.var("mod3", base = bname)
-cache.var("mod4", base = bname)
-cache.var("mod5", base = bname)
-cache.var("mod6", base = bname)
-load.cache.var("mod6", bname)

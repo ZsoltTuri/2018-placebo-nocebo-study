@@ -1,10 +1,13 @@
+# This script is part of 
+#
+# Turi, Z., Bjørkedal, E., Gunkel, L., Antal, A., Paulus, W. & Mittner, M. (2018).
+# Evidence for Cognitive Placebo and Nocebo Effects in Healthy Individuals.
+#
+# Analysis of reaction time data.
+#
+#
 library(ProjectTemplate)
 load.project()
-
-library(brms)
-library(bayesplot)
-library(tidybayes)
-library(forcats)
 
 options(mc.cores=parallel::detectCores())
 theme_set(theme_bw())
@@ -96,13 +99,6 @@ fit_and_plot <- function(mod.name,frm){
 #========================
 models <- list(
   formula(reaction_time ~ (1|subj)),
-  # formula(log(reaction_time) ~ ztrial + (1|subj)),
-  # formula(log(reaction_time) ~ symbl_pair + (1|subj)),
-  # formula(log(reaction_time) ~ ztrial + symbl_pair + (1|subj)),
-  # formula(log(reaction_time) ~ ztrial * symbl_pair + (1|subj)),
-  # formula(log(reaction_time) ~ ztrial * symbl_pair + day + (1|subj)),
-  # formula(log(reaction_time) ~ ztrial * symbl_pair + day + day:ztrial + (1|subj)),
-  # formula(log(reaction_time) ~ ztrial * symbl_pair + day + day:ztrial + (1 + ztrial|subj)),
   formula(reaction_time ~ ztrial * symbl_pair + day + day:ztrial + (1 + ztrial + symbl_pair|subj)),
   formula(reaction_time ~ ztrial * symbl_pair + day + day:ztrial + group + (1 + ztrial + symbl_pair|subj)),
   formula(reaction_time ~ ztrial * symbl_pair + day + day:ztrial + group + group:day + (1 + ztrial + symbl_pair|subj))
@@ -114,9 +110,6 @@ names(models) <- sprintf("mod%02i", 1:length(models))
 ## fit models
 #========================
 library(parallel)
-#models.fitted=map(models, fit_and_plot)
-#models.fitted=mclapply(models, fit_and_plot, mc.cores = 4)
-#models.fitted=map2(names(models), models, fit_and_plot)
 models.fitted=mcmapply(fit_and_plot, names(models), models, mc.cores = 4, SIMPLIFY = FALSE)
 # stop()
 #========================
@@ -124,10 +117,8 @@ models.fitted=mcmapply(fit_and_plot, names(models), models, mc.cores = 4, SIMPLI
 #========================
 
 loos = if.cached.load("loos", {
-  #mclapply(models.fitted, LOO, mc.cores = 4)
   map(models.fitted, LOO, pointwise=F) 
 }, base=bname)
-##loos = mclapply(models.fitted, LOO, mc.cores=6)
 loos=map2(names(models), loos, function(mname,mod){mod$model_name=mname; mod})
 
 sink(log.filename("models.log", base=bname))
@@ -141,33 +132,6 @@ compare_ic(x=loos) %>% print
 
 sink(NULL)
 
-# ------------------------------------------------------
-# we tried:
-
-# d %>%
-#   filter(reaction_time > 0.3) -> d1
-
-# d %>% 
-#   ggplot(aes(x=reaction_time))+geom_histogram()+facet_wrap(~subj)
-
-# mod0 <- brm(log(reaction_time) ~ ztrial, data = d, prior=prior("cauchy(0,1)"))
-# mod <- brm(log(reaction_time) ~ ztrial + (1|subj), data = d, prior=prior("cauchy(0,1)"))
-# mod2 <- brm(reaction_time ~ ztrial + (1|subj), data = d, prior=prior("cauchy(0,1)"))
-# mod2b <- brm(zrt ~ ztrial + (1|subj), data = d, prior=prior("cauchy(0,1)"))
-# mod2c <- brm(reaction_time ~ ztrial - 1 + (1|subj), data = d, prior=prior("cauchy(0,1)"))
-
-# mod.1 <- brm(log(reaction_time) ~ ztrial + (1|subj), data = d1, prior=prior("cauchy(0,1)"))
-# mod.2 <- brm(log(reaction_time) ~ ztrial + symbl_pair + (1|subj), data = d1, prior=prior("cauchy(0,1)"))
-# mod.3 <- brm(log(reaction_time) ~ ztrial * symbl_pair + day + day:ztrial + (1 + ztrial + symbl_pair|subj), data = d1, prior=prior("cauchy(0,1)"))
-# mod.3b <- brm(log(reaction_time) ~ ztrial * symbl_pair + day + day:ztrial + (1 + ztrial + symbl_pair|subj), data = d, prior=prior("cauchy(0,1)"))
-# mod.3c <- brm(reaction_time ~ ztrial * symbl_pair + day + day:ztrial + (1 + ztrial + symbl_pair|subj), data = d, prior=prior("cauchy(0,1)"))
-# loo.3b = LOO(mod.3b, pointwise = F)
-# loo.3c = LOO(mod.3c, pointwise = F)
-# compare_ic(loo.3b, loo.3c) %>% print
-
-
-# m9=as.matrix(mod09)
-# mcmc_intervals(m9, regex_pars = c("b_"))
 mod04<-load.cache.var("mod04", bname)
 mcmc_intervals(as.matrix(mod04), regex_pars = "b_.*")+xlim(-.1,.2)
 hypothesis(mod04, c("day2:groupp_cond<day2:groupp_cntrl",

@@ -8,7 +8,7 @@ munging: TRUE
 logging: FALSE
 logging_level: INFO
 load_libraries: TRUE
-libraries: tidyverse, forcats, stringr, tidyr, ggplot2, wesanderson, gridExtra, grid, extrafont, waffle
+libraries: tidyverse, forcats, stringr, tidyr, ggplot2, wesanderson, rstan,gridExtra, grid, extrafont, waffle, brms, bayesplot, tidybayes,forcats
 as_factors: TRUE
 data_tables: FALSE
 attach_internal_libraries: FALSE
