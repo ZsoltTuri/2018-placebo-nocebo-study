@@ -1,30 +1,27 @@
 # Evidence for Cognitive Placebo and Nocebo Effects in Healthy Individuals
 
-<!---
-[![DOI](https://zenodo.org/badge/19634/ihrke/2016-placebo-tdcs-study.svg)](https://zenodo.org/badge/latestdoi/19634/ihrke/2016-placebo-tdcs-study)
-
-This repository contains data and analyses for the paper "Evidence for Cognitive Placebo and Nocebo Effects
-in Healthy Individuals".
+This repository contains data and analyses for the paper "Evidence for Cognitive Placebo
+and Nocebo Effects in Healthy Individuals".
 
  If you want to use this data/analysis in a research publication,
-please cite [our paper](http://link).
+please cite [our paper](https://www.nature.com/articles/s41598-018-35124-w).
 
 
-Turi, Z., Bjørkedal, E., Gunkel, L., Antal, A., Paulus, W. & Mittner, M. (yyyy).
-Evidence for Cognitive Placebo and Nocebo Effects in Healthy Individuals. Journal. 
+Turi, Z., Bjørkedal, E., Gunkel, L., Antal, A., Paulus, W. & Mittner, M. (2018).
+Evidence for Cognitive Placebo and Nocebo Effects in Healthy Individuals. Scientific Reports, 8(1):17443. doi: 10.1038/s41598-018-35124-w.
 
 ~~~{bibtex}
-@article{turi_placebo_yyyy,
-  author={Turi, Z., Bjørkedal, E., Gunkel, L., Antal, A., Paulus, W. and Mittner, M.},
+@article{turi2018evidence,
   title={Evidence for Cognitive Placebo and Nocebo Effects in Healthy Individuals},
-  year=yyyy,
-  journal={Journal},
-  volume=v,
-  number=n,
-  doi=d
+  author={Turi, Zsolt and Bj{\o}rkedal, Espen and Gunkel, Luisa and Antal, Andrea and Paulus, Walter and Mittner, Matthias},
+  journal={Scientific Reports},
+  volume={8},
+  number={1},
+  pages={17443},
+  year={2018},
+  publisher={Nature Publishing Group}
 }
 ~~~
- -->
 
 ## Requirements
 
